@@ -24,6 +24,9 @@
             </intent-filter>
         </activity>
 
+        <service android:name=".service.TestService"/>
+        <service android:name=".service.BindService"/>
+
     </application>
 
 </manifest>
