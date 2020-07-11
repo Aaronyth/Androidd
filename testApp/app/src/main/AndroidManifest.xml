@@ -27,6 +27,12 @@
         <service android:name=".service.TestService"/>
         <service android:name=".service.BindService"/>
 
+        <receiver android:name=".receiver.TestBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.example.testapp.testbroadcast"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

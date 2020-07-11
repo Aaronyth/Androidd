@@ -1,7 +1,10 @@
 package com.example.testapp.service;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -10,24 +13,25 @@ import com.example.testapp.constant.TestConstant;
 public class TestService extends Service {
 
     private static final String TAG = "TestService";
+    private BroadcastReceiver receiver;
 
     public TestService() {
         super();
-        Log.d(TAG, "TestService: ");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate: ");
+        receiver = new Receiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(TestConstant.ACTION_TEST_BROADCAST);
+        registerReceiver(receiver,intentFilter);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand: ");
         String testTransfer = intent.getStringExtra(TestConstant.KEY_TEST_DATA);
-        Log.d(TAG, "onStartCommand: " + "intent: " + intent.getAction());
-        Log.d(TAG, "onStartCommand: " + "testTransfer: " + testTransfer);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -39,7 +43,16 @@ public class TestService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy: ");
+        unregisterReceiver(receiver);
+    }
+
+    public class Receiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(TestConstant.ACTION_TEST_BROADCAST)) {
+                Log.i(TAG, "received broadcast in service.");
+            }
+        }
     }
 
 }

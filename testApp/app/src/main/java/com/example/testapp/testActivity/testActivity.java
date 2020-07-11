@@ -44,6 +44,7 @@ public class testActivity extends Activity implements View.OnClickListener {
         Button bindServiceButton = findViewById(R.id.bind_service_button);
         Button stopServiceButton = findViewById(R.id.stop_service_button);
         Button unbindServiceButton = findViewById(R.id.unbind_service_button);
+        Button sendBroadcast = findViewById(R.id.send_broadcast);
 
 
         backButton.setOnClickListener(this);
@@ -52,6 +53,7 @@ public class testActivity extends Activity implements View.OnClickListener {
         bindServiceButton.setOnClickListener(this);
         stopServiceButton.setOnClickListener(this);
         unbindServiceButton.setOnClickListener(this);
+        sendBroadcast.setOnClickListener(this);
 
         mTestDialog = new TestDialog(this);
 
@@ -101,8 +103,15 @@ public class testActivity extends Activity implements View.OnClickListener {
                 testUnBindService();
                 break;
 
+            case R.id.send_broadcast:
+                testSendBroadcast();
+                break;
+
             case R.id.back_button:
                 finish();
+                break;
+
+            default:
                 break;
         }
     }
@@ -159,6 +168,13 @@ public class testActivity extends Activity implements View.OnClickListener {
             mBindService = null;
             unbindService(mSerConn);
         }
+    }
+
+    private void testSendBroadcast() {
+        Log.i(TAG, "testSendBroadcast: ");
+        Intent intent = new Intent();
+        intent.setAction(TestConstant.ACTION_TEST_BROADCAST);
+        this.sendBroadcast(intent);
     }
 
     @Override
