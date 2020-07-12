@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -25,6 +26,7 @@ public class TestService extends Service {
         receiver = new Receiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(TestConstant.ACTION_TEST_BROADCAST);
+        intentFilter.setPriority(200);
         registerReceiver(receiver,intentFilter);
     }
 
@@ -51,7 +53,9 @@ public class TestService extends Service {
         public void onReceive(Context context, Intent intent) {
             if(intent.getAction().equals(TestConstant.ACTION_TEST_BROADCAST)) {
                 Log.i(TAG, "received broadcast in service.");
-            }
+                Bundle bundle = new Bundle();
+                bundle.putString(TestConstant.KEY_TEST_BROADCAST_DATA,"reSend order broadcast in testService.");
+                setResultExtras(bundle);           }
         }
     }
 

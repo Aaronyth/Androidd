@@ -2,7 +2,9 @@ package com.example.testapp.testActivity;
 
 import android.app.Activity;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -35,7 +37,7 @@ public class testActivity extends Activity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        
+
         setContentView(R.layout.test_activity);
 
         Button backButton = findViewById(R.id.back_button);
@@ -104,7 +106,8 @@ public class testActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.send_broadcast:
-                testSendBroadcast();
+//                testSendBroadcast();
+                testSendOrderBroadcast();
                 break;
 
             case R.id.back_button:
@@ -175,6 +178,14 @@ public class testActivity extends Activity implements View.OnClickListener {
         Intent intent = new Intent();
         intent.setAction(TestConstant.ACTION_TEST_BROADCAST);
         this.sendBroadcast(intent);
+    }
+
+    private void testSendOrderBroadcast() {
+        Log.i(TAG, "testSendOrderBroadcast: ");
+        Intent intent = new Intent();
+        intent.setAction(TestConstant.ACTION_TEST_BROADCAST);
+        intent.putExtra(TestConstant.KEY_TEST_BROADCAST_DATA,"send order broadcast.");
+        this.sendOrderedBroadcast(intent, null);
     }
 
     @Override
